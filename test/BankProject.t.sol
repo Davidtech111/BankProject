@@ -19,20 +19,24 @@ contract BankProjectTest is Test {
         vm.prank(user);
         bank.createAccount{value: 1 ether}("David");
 
+        // 👇 FIX: prank before reading balance
+        vm.prank(user);
         uint256 balance = bank.getMyBalance();
+
         assertEq(balance, 0);
     }
 
     function testDeposit() public {
         vm.deal(user, 3 ether);
 
-        vm.prank(user);
+        vm.startPrank(user);
         bank.createAccount{value: 1 ether}("David");
-
-        vm.prank(user);
         bank.deposit{value: 1 ether}();
 
+        // 👇 still inside prank context
         uint256 balance = bank.getMyBalance();
+        vm.stopPrank();
+
         assertEq(balance, 1 ether);
     }
 
@@ -43,9 +47,11 @@ contract BankProjectTest is Test {
         bank.createAccount{value: 1 ether}("David");
         bank.deposit{value: 2 ether}();
         bank.withdraw(1 ether);
+
+        // 👇 still inside prank
+        uint256 balance = bank.getMyBalance();
         vm.stopPrank();
 
-        uint256 balance = bank.getMyBalance();
         assertEq(balance, 1 ether);
     }
 }
