@@ -43,12 +43,7 @@ contract BankProject1 {
 
         require(!accounts[msg.sender].isActive, "Account already exists");
 
-        accounts[msg.sender] = Account({
-            name: _name,
-            balance: 0,
-            accountAddress: msg.sender,
-            isActive: true
-        });
+        accounts[msg.sender] = Account({name: _name, balance: 0, accountAddress: msg.sender, isActive: true});
     }
 
     // Deposit
@@ -68,7 +63,7 @@ contract BankProject1 {
         totalBankBalance -= amount;
 
         // INTERACTION
-        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        (bool success,) = payable(msg.sender).call{value: amount}("");
         require(success, "Transfer failed");
     }
 

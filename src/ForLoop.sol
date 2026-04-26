@@ -2,7 +2,6 @@
 pragma solidity ^0.8.30;
 
 contract ForLoop {
-    
     struct Account {
         string name;
         uint256 balance;
@@ -14,21 +13,11 @@ contract ForLoop {
     Account[] public accounts;
 
     // Add multiple accounts using for loop
-    function addMultipleAccounts(
-        string[] memory names,
-        address[] memory addresses
-    ) public {
-
+    function addMultipleAccounts(string[] memory names, address[] memory addresses) public {
         require(names.length == addresses.length, "Array mismatch");
 
         for (uint256 i = 0; i < names.length; i++) {
-
-            accounts.push(Account({
-                name: names[i],
-                balance: 0,
-                accountAddress: addresses[i],
-                isActive: true
-            }));
+            accounts.push(Account({name: names[i], balance: 0, accountAddress: addresses[i], isActive: true}));
         }
     }
 
